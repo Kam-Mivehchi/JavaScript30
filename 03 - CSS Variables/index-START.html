@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Scoped CSS Variables and JS</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
   <h2>Update CSS Variables with <span class='hl'>JS</span></h2>
 
@@ -22,10 +24,24 @@
   <img src="https://source.unsplash.com/7bwQXzbF6KE/800x500">
 
   <style>
-
     /*
       misc styles, nothing to do with CSS variables
     */
+    :root {
+      --spacing: 100px;
+      --blur: 10px;
+      --accent-color: teal;
+    }
+
+    .hl {
+      color: var(--accent-color);
+    }
+
+    img {
+      filter: blur(var(--blur));
+      padding: var(--spacing);
+      background-color: var(--accent-color);
+    }
 
     body {
       text-align: center;
@@ -46,7 +62,21 @@
   </style>
 
   <script>
+    var root = document.querySelector(':root');
+
+    document.querySelector('#base').addEventListener('input', function (e) {
+      root.style.setProperty('--accent-color', `${e.target.value}`);
+    })
+    document.querySelector('#blur').addEventListener('input', function (e) {
+      root.style.setProperty('--blur', `${e.target.value}px`);
+    })
+    document.querySelector('#spacing').addEventListener('input', function (e) {
+      console.log()
+      root.style.setProperty('--spacing', `${e.target.value}px`);
+    })
+
   </script>
 
 </body>
+
 </html>
