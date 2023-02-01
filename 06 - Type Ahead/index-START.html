@@ -26,18 +26,13 @@
       .then(data => cities.push(...data));
 
     document.querySelector('input').addEventListener('input', handleEvent)
+
     function filterList(target, array) {
       return array.filter(location => {
         let matchThis = new RegExp(target, 'gi')
         return location.city.match(matchThis) || location.state.match(matchThis)
       })
     }
-
-
-
-
-
-
 
     //handle input event
     function handleEvent(event) {
