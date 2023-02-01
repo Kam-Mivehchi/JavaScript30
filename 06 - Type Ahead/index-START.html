@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Type Ahead 👀</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
 
   <form class="search-form">
@@ -15,9 +17,46 @@
       <li>or a state</li>
     </ul>
   </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  <script>
+    const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+    const cities = [];
+    //make api call
+    fetch(endpoint)
+      .then(res => res.json())
+      .then(data => cities.push(...data));
 
-</script>
+    document.querySelector('input').addEventListener('input', handleEvent)
+    function filterList(target, array) {
+      return array.filter(location => {
+        let matchThis = new RegExp(target, 'gi')
+        return location.city.match(matchThis) || location.state.match(matchThis)
+      })
+    }
+
+
+
+
+
+
+
+    //handle input event
+    function handleEvent(event) {
+
+      event.preventDefault();
+      let filteredList = filterList(event.target.value, cities);
+      let matchThis = new RegExp(event.target.value, 'gi')
+
+      document.querySelector('.suggestions').innerHTML = ''
+      filteredList.forEach(function (item) {
+        let newListEl = document.createElement('li')
+
+        newListEl.innerHTML = `<span >${item.city.replace(matchThis, `<span class="hl">${event.target.value}</span>`)}, ${item.state.replace(matchThis, `<span class="hl">${event.target.value}</span>`)}</span>`
+        newListEl.innerHTML += `<span>${new Intl.NumberFormat('en-US').format(item.population)}</span>`
+        document.querySelector('.suggestions').append(newListEl);
+      })
+    }
+
+  </script>
 </body>
+
 </html>
