@@ -1,20 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>HTML5 Canvas</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
-<body>
-<canvas id="draw" width="800" height="800"></canvas>
-<script>
-</script>
 
-<style>
-  html, body {
-    margin: 0;
-  }
-</style>
+<body>
+  <canvas id="draw" width="800" height="800"></canvas>
+  <script>
+    const canvas = document.getElementById("draw");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    ctx.strokeStyle = '#BADA55';
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+    ctx.lineWidth = 100;
+    //only draw when user clicks first
+    let isDrawing = false
+    let lastX = 0;
+    let lastY = 0;
+    let hue = 0;
+    let dir = true;
+    function drawPath(e) {
+      if (!isDrawing) return; // stop the fn from running when they are not moused down
+
+      // start from
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      // start from
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      // go to
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+
+      lastX = e.offsetX;
+      lastY = e.offsetY;
+      hue++;
+      if (hue >= 360) {
+        hue = 0;
+      }
+      console.log(ctx.lineWidth);
+      if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+        dir = !dir;
+      }
+      if (dir) {
+        ctx.lineWidth++;
+      } else {
+        ctx.lineWidth--;
+      }
+
+    }
+
+    canvas.addEventListener("mousedown", function (e) {
+      console.log(e)
+      isDrawing = true
+
+      lastX = e.offsetX;
+      lastY = e.offsetY;
+
+
+    })
+    canvas.addEventListener("mousemove", drawPath);
+    canvas.addEventListener("mouseup", () => isDrawing = false);
+    canvas.addEventListener('mouseout', () => isDrawing = false);
+
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+  </style>
 
 </body>
+
 </html>
