@@ -15,7 +15,6 @@ function calculateProgress() {
    progressLoader.style.flexBasis = `${percentComplete}%`;
 }
 function togglePlay() {
-
    const method = vid.paused ? 'play' : 'pause';
    vid[method]();
 }
@@ -38,6 +37,10 @@ function pauseVid() {
    vid.pause();
    playPauseButton.textContent = '►'
 }
+function handleTimelineChange(e) {
+   const scrubTime = (e.offsetX / progressBar.offsetWidth) * vid.duration;
+   vid.currentTime = scrubTime;
+}
 //update progress bar when time changes
 vid.addEventListener('timeupdate', calculateProgress);
 //start stop video
@@ -55,15 +58,6 @@ rewindButton.addEventListener('click', skip)
 fastForwardButton.addEventListener('click', skip)
 
 //scrub the video when user interacts with progress bar
-
-// progressBar.addEventListener('mousedown', handleMouseDown)
-// progressBar.addEventListener('mouseup', handleMouseUp)
-
-
-function handleTimelineChange(e) {
-   const scrubTime = (e.offsetX / progressBar.offsetWidth) * vid.duration;
-   vid.currentTime = scrubTime;
-}
 let mousedown = false;
 progressBar.addEventListener('mousemove', (e) => mousedown && handleTimelineChange(e));
 progressBar.addEventListener('mousedown', () => mousedown = true);
