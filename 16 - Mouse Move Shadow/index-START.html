@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Mouse Shadow</title>
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
+
 <body>
 
   <div class="hero">
@@ -12,30 +14,63 @@
   </div>
 
   <style>
-  html {
-    color: black;
-    font-family: sans-serif;
-  }
+    :root {
+      --offset-x: 10px;
+      --offset-y: 10px;
 
-  body {
-    margin: 0;
-  }
+    }
 
-  .hero {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: black;
-  }
+    html {
+      color: black;
+      font-family: sans-serif;
+    }
 
-  h1 {
-    text-shadow: 10px 10px 0 rgba(0,0,0,1);
-    font-size: 100px;
-  }
+    body {
+      margin: 0;
+    }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: black;
+    }
+
+    h1 {
+      text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+
+      font-size: 100px;
+      /* transition: all 0.1s linear; */
+    }
   </style>
 
-<script>
-</script>
+  <script>
+
+    const hero = document.querySelector('.hero');
+    const content = document.querySelector('h1');
+    //hover event
+    hero.addEventListener('mousemove', function (e) {
+      let { offsetX: x, offsetY: y } = e;
+      console.log(x, y)
+
+      if (this !== e.target) {
+        x = x + e.target.offsetLeft;
+        y = y + e.target.offsetTop;
+      }
+      let distX = Math.round((x / hero.offsetWidth * 500) - (500 / 2))
+      let distY = Math.round((y / hero.offsetHeight * 500) - (500 / 2))
+
+      content.style.textShadow = `
+    ${distX}px ${distY}px 0 green,
+    ${distX * -1}px ${distY}px 0 teal,
+    ${distY}px ${distX}px 0 blue,
+    ${distY}px ${distX * -1}px 0 pink
+    
+      `
+
+    })
+  </script>
 </body>
+
 </html>
