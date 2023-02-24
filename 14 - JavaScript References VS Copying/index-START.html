@@ -28,18 +28,18 @@
     // now here is the problem!
 
     // oh no - we have edited the original array too!
-    const team2 = players.slice()
-    const team3 = [].concat(players)
-    const team5 = [...players]
     // Why? It's because that is an array reference, not an array copy. They both point to the same array!
 
     // So, how do we fix this? We take a copy instead!
 
     // one way
+    const team2 = players.slice()
 
     // or create a new array and concat the old one in
+    const team3 = [].concat(players)
 
     // or use the new ES6 Spread
+    const team5 = [...players]
 
     // now when we update it, the original one isn't changed
 
@@ -59,7 +59,7 @@
     Object.assign({}, person, { number: 99 });
 
     // We will hopefully soon see the object ...spread
-    // const cap3 = {...person};
+    const cap3 = { ...person };
 
 
     const kam = {
@@ -72,6 +72,7 @@
 
     const dev = Object.assign({}, kam)
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
+    const dev2 = JSON.parse(JSON.stringify(kam));
 
 
   </script>
